@@ -10,6 +10,23 @@ import UIKit
 
 class BookingDetailViewController: UIViewController {
 
+    @IBOutlet weak var lblLocationName: UILabel!
+    @IBOutlet weak var lblLocationDescription: UILabel!
+    
+    @IBOutlet weak var carImageView: UIImageView!
+    @IBOutlet weak var lblCarName: UILabel!
+    @IBOutlet weak var lblCapacity: UILabel!
+    @IBOutlet weak var lblNumberPlate: UILabel!
+    
+    @IBOutlet weak var lblStartDate: UILabel!
+    @IBOutlet weak var lblEndDate: UILabel!
+    
+    @IBOutlet weak var lblDuration: UILabel!
+    @IBOutlet weak var lblEstimatedCost: UILabel!
+    @IBOutlet weak var lblFuelPin: UILabel!
+    
+    let logicController: BookingDetailLogicController = BookingDetailLogicController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -17,10 +34,14 @@ class BookingDetailViewController: UIViewController {
         self.setDefault()
     }
     
+    /// Set Default Setting
     func setDefault() {
         self.title = "Bookings Details"
         self.navigationController?.navigationBar.barTintColor = UIColor.orange
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        self.logicController.delegate = self
+        self.logicController.loadData()
     }
 
     /*
@@ -33,4 +54,29 @@ class BookingDetailViewController: UIViewController {
     }
     */
 
+}
+
+
+// MARK: Delegate Methods
+extension BookingDetailViewController: BookingDetailLogicControllerDelegate {
+    
+    func VehicleBookingResponse(vehicleBooking: VehicleBooking) {
+        self.lblStartDate.text = vehicleBooking.startFullDate
+        self.lblEndDate.text = vehicleBooking.endFullDate
+        self.lblDuration.text = "\(vehicleBooking.duration) hours"
+        self.lblEstimatedCost.text = "$\(vehicleBooking.estimatedCost)"
+        self.lblFuelPin.text = vehicleBooking.fuelPin
+    }
+   
+    func VehicleResponse(vehicle: Vehicle) {
+        self.lblCarName.text = vehicle.name
+        self.lblCapacity.text = "\(vehicle.capacity)"
+        self.lblNumberPlate.text = vehicle.numberPlate
+        self.carImageView.downloaded(from: vehicle.image)
+    }
+    
+    func PodResponse(pod: Pod) {
+        self.lblLocationName.text = pod.name
+        self.lblLocationDescription.text = pod.description
+    }
 }

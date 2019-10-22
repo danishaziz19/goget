@@ -16,27 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        VehicleBookingViewModel().getVehicleBookings() { response in
-            switch response {
-            case .success(let vehicleBookings):
-                guard let vehicleBookings = vehicleBookings else { return }
-                if let vehicleId = vehicleBookings.vehicleBookings.first?.vehicleID {
-                    VehicleBookingViewModel().getVehicle(vehicleId: vehicleId) { response in
-                        
-                    }
-                }
-                
-                if let podID = vehicleBookings.vehicleBookings.first?.podID {
-                    VehicleBookingViewModel().getPod(podId: podID) { response in
-                        
-                    }
-                }
-                
-            case .error(let error):
-                print(error)
-            }
-        }
         return true
     }
 

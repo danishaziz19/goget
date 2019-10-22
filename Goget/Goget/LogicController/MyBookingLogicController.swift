@@ -19,7 +19,7 @@ protocol MyBookingLogicControllerDelegate {
 class MyBookingLogicController: NSObject {
 
     let viewModel: VehicleBookingViewModel = VehicleBookingViewModel()
-    var vehicleBooking: [VehicleBooking] = []
+    var vehicleBookings: [VehicleBooking] = []
     var tableView: UITableView?
     var delegate: MyBookingLogicControllerDelegate?
     
@@ -48,7 +48,7 @@ class MyBookingLogicController: NSObject {
             switch response {
             case .success(let vehicleBookings):
                 guard let vehicleBookings = vehicleBookings else { return }
-                self?.vehicleBooking = vehicleBookings.vehicleBookings
+                self?.vehicleBookings = vehicleBookings.vehicleBookings
                 DispatchQueue.main.async {
                     self?.reload()
                 }
@@ -67,7 +67,7 @@ class MyBookingLogicController: NSObject {
     ///
     /// - Parameter : Return UITableViewCell
     func getCellForRowAt(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        let vehicleBooking = self.vehicleBooking[indexPath.row]
+        let vehicleBooking = self.vehicleBookings[indexPath.row]
         guard let cell: MyBookingTableViewCell = tableView.dequeueReusableCell(withIdentifier: MyBookingCellType.myBookingCell.rawValue) as? MyBookingTableViewCell else {
             return UITableViewCell()
         }
@@ -80,7 +80,7 @@ class MyBookingLogicController: NSObject {
 extension MyBookingLogicController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.vehicleBooking.count
+        return self.vehicleBookings.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -88,7 +88,7 @@ extension MyBookingLogicController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vehicleBooking = self.vehicleBooking[indexPath.row]
+        let vehicleBooking = self.vehicleBookings[indexPath.row]
         self.delegate?.didSelectCell(vehicleBooking: vehicleBooking)
     }
     

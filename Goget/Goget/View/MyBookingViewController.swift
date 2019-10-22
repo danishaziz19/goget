@@ -21,6 +21,7 @@ class MyBookingViewController: UIViewController {
         self.setDefault()
     }
     
+    /// Set Default Setting
     func setDefault() {
         self.title = "My Bookings"
         self.navigationController?.navigationBar.barTintColor = UIColor.orange
@@ -46,7 +47,7 @@ extension MyBookingViewController: MyBookingLogicControllerDelegate {
     
     func didSelectCell(vehicleBooking: VehicleBooking) {
         if let bookingDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "bookingDetailViewController") as? BookingDetailViewController {
-           // bookingDetailViewController.logicController.article = article
+            bookingDetailViewController.logicController.vehicleBooking = vehicleBooking
             self.navigationController?.pushViewController(bookingDetailViewController, animated: true)
         }
     }

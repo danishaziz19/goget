@@ -33,6 +33,9 @@ struct VehicleBooking: Codable {
     
     var startDate: String = ""
     var endDate: String = ""
+    var startFullDate: String = ""
+    var endFullDate: String = ""
+    var duration: String = ""
     
     enum CodingKeys: String, CodingKey {
         case id, startTime, endTime
@@ -46,14 +49,20 @@ struct VehicleBooking: Codable {
         self.id = try values.decode(Int.self, forKey: .id)
         var timeString = try values.decode(String.self, forKey: .startTime)
         
+        var localStartDate = Date()
+        var localEndDate = Date()
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         if let dateFromString = dateFormatter.date(from: timeString) {
+            localStartDate = dateFromString
             dateFormatter.dateFormat = "EEE d MMM"
             self.startDate = dateFormatter.string(from: dateFromString)
             dateFormatter.dateFormat = "h:mm a"
             dateFormatter.locale = .current
             self.startTime = dateFormatter.string(from: dateFromString)
+            dateFormatter.dateFormat = "EEEE d MMM, h:mm a"
+            self.startFullDate = dateFormatter.string(from: dateFromString)
         } else {
             self.startTime = ""
         }
@@ -61,13 +70,22 @@ struct VehicleBooking: Codable {
         timeString = try values.decode(String.self, forKey: .endTime)
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         if let dateFromString = dateFormatter.date(from: timeString) {
+            localEndDate = dateFromString
             dateFormatter.dateFormat = "EEE d MMM"
             self.endDate = dateFormatter.string(from: dateFromString)
             dateFormatter.dateFormat = "h:mm a"
             dateFormatter.locale = .current
             self.endTime = dateFormatter.string(from: dateFromString)
+            dateFormatter.dateFormat = "EEEE d MMM, h:mm a"
+            self.endFullDate = dateFormatter.string(from: dateFromString)
         } else {
             self.endTime = ""
+        }
+        
+        let cal = Calendar.current
+        let components = cal.dateComponents([.hour], from: localStartDate, to: localEndDate)
+        if let diff = components.hour {
+            self.duration = "\(diff)"
         }
         
         self.vehicleID = try values.decode(Int.self, forKey: .vehicleID)

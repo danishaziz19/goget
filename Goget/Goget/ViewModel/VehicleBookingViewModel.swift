@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Generic ViewModel Response 
 enum ViewModelResponse<T> {
     case success(T)
     case error(String)
@@ -15,6 +16,9 @@ enum ViewModelResponse<T> {
 
 class VehicleBookingViewModel: NSObject {
     
+    /// Get VehicleBookings
+    ///
+    /// get VehicleBooking Data from file and decode Json format to VehicleBookings Class
     func getVehicleBookings(response: @escaping (_ vehicleBookings: ViewModelResponse<VehicleBookings?>) -> ()) {
         guard let filepath = Bundle.main.url(forResource: "vehicleBookings", withExtension: "json")
             else {
@@ -31,7 +35,10 @@ class VehicleBookingViewModel: NSObject {
         }
     }
     
-    func getVehicle(vehicleId: Int, response: @escaping (_ vehicleBookings: ViewModelResponse<Vehicle?>) -> ()) {
+    /// Get Vehicle
+    ///
+    /// get Vehicle Data from file and decode Json format to Vehicle Class
+    func getVehicle(vehicleId: Int, response: @escaping (_ vehicle: ViewModelResponse<Vehicle?>) -> ()) {
         guard let filepath = Bundle.main.url(forResource: "vehicles", withExtension: "json")
             else {
                 response(.error("wrong path"))
@@ -49,7 +56,10 @@ class VehicleBookingViewModel: NSObject {
         }
     }
     
-    func getPod(podId: Int, response: @escaping (_ vehicleBookings: ViewModelResponse<Pod?>) -> ()) {
+    /// Get Pod
+    ///
+    /// get Pod Data from file and decode Json format to Pod Class
+    func getPod(podId: Int, response: @escaping (_ pod: ViewModelResponse<Pod?>) -> ()) {
         guard let filepath = Bundle.main.url(forResource: "pods", withExtension: "json")
             else {
                 response(.error("wrong path"))
