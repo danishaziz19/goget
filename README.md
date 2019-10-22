@@ -41,6 +41,19 @@ You should submit the following for review:
 * Or a link to the github page of this exercise project
 
 
+# Solution
+
+## Software Architecture:
+
+Model–view–viewmodel (MVVM)
+
+* Model : All the model Classes (eg: VehicleBookings, Vehicle, Pod)
+* ViewModel : VehicleBookingViewModel use to get VehicleBookings, Vehicle and Pod data.
+* LogicController : All the viewcontoller logic written in logic controller
+* Views: All ViewControllers
+
+All modules are separated so it can be resuable.
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
